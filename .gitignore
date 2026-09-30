@@ -1,0 +1,51 @@
+# ── Dependencies ─────────────────────────────────────────────
+node_modules/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Environment ──────────────────────────────────────────────
+.env
+.env.local
+.env.production
+*.env
+
+# ── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Build Outputs ────────────────────────────────────────────
+frontend/.next/
+frontend/out/
+backend/*.db
+backend/test.db
+
+# ── OS Files ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Docker ───────────────────────────────────────────────────
+mysql_data/
+redis_data/
+
+# ── Pytest ───────────────────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+
+# ── Alembic ──────────────────────────────────────────────────
+alembic/versions/*.py
+!alembic/versions/.gitkeep
