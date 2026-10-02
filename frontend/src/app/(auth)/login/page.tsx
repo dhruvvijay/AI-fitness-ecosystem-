@@ -101,9 +101,13 @@ export default function LoginPage() {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium">Password</label>
-                <Link href="/forgot-password" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => alert("Password reset is coming soon. Contact support for help.")}
+                  className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+                >
                   Forgot password?
-                </Link>
+                </button>
               </div>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -166,6 +170,7 @@ export default function LoginPage() {
           {/* Google OAuth */}
           <button
             type="button"
+            onClick={() => alert("Google login is coming soon!")}
             className={cn(
               "flex w-full h-12 items-center justify-center gap-3 rounded-xl text-sm font-medium",
               "bg-white/[0.04] border border-white/[0.08]",

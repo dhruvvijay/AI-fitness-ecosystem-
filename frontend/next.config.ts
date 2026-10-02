@@ -7,14 +7,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "**" },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/:path*`,
-      },
-    ];
-  },
+  // NOTE: Removed the /api rewrite that was proxying API calls through
+  // the Next.js server. In production on Railway, the frontend calls
+  // the backend directly via NEXT_PUBLIC_API_URL. The rewrite was
+  // causing login requests to hit the frontend server instead of FastAPI.
 };
 
 export default nextConfig;

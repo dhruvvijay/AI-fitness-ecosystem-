@@ -34,6 +34,17 @@ async def lifespan(app: FastAPI):
     logger.info(f"🚀 Starting {settings.APP_NAME} v{settings.APP_VERSION}")
     logger.info(f"📊 Environment: {settings.ENVIRONMENT}")
     logger.info(f"🗄️  Database: {settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}")
+
+    # Auto-create tables if they don't exist
+    try:
+        from app.db.base import engine, Base
+        from app.models import user, fitness, nutrition, workout, auth, social, ai, admin  # noqa: F401
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("✅ Database tables verified/created")
+    except Exception as e:
+        logger.error(f"❌ Database table creation failed: {e}")
+
     yield
     logger.info("👋 Shutting down gracefully...")
 
@@ -56,10 +67,20 @@ def create_app() -> FastAPI:
 
     # ── Middleware Stack ─────────────────────────────────────────
 
-    # CORS
+    # CORS — build dynamic origins list
+    cors_origins = list(settings.BACKEND_CORS_ORIGINS)
+    if settings.FRONTEND_URL and settings.FRONTEND_URL not in cors_origins:
+        cors_origins.append(settings.FRONTEND_URL)
+    # Also allow common Railway patterns
+    import os
+    railway_public = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+    if railway_public:
+        cors_origins.append(f"https://{railway_public}")
+    logger.info(f"🌐 CORS origins: {cors_origins}")
+
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.BACKEND_CORS_ORIGINS,
+        allow_origins=cors_origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

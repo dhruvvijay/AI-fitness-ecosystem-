@@ -26,6 +26,7 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://localhost:8000",
     ]
+    FRONTEND_URL: str = ""
 
     # ── Database ─────────────────────────────────────────────────
     DB_HOST: str = "localhost"
