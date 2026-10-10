@@ -38,7 +38,7 @@ async def lifespan(app: FastAPI):
     # Auto-create tables if they don't exist
     try:
         from app.db.base import engine, Base
-        from app.models import user, fitness, nutrition, workout, auth, social, ai, admin  # noqa: F401
+        import app.models  # noqa: F401 — triggers __init__.py which imports all models
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         logger.info("✅ Database tables verified/created")
